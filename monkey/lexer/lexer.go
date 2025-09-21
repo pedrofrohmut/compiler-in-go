@@ -3,6 +3,7 @@
 package lexer
 
 import (
+	"fmt"
 	"monkey/token"
 )
 
@@ -14,33 +15,46 @@ const (
 type Lexer struct {
 	input string
 	pos int
+	ch byte // Just for debugging
 }
 
 func NewLexer(input string) *Lexer {
-	return &Lexer{
-		input: input,
-		pos: 0,
+    var lexer = &Lexer {}
+    lexer.input = input
+    lexer.pos = 0
+	if len(input) > 0 {
+		lexer.ch = input[0]
 	}
+    return lexer
 }
 
 func (this *Lexer) hasNext() bool {
 	return this.pos < len(this.input) - 1
 }
 
+func (this *Lexer) isValidPos() bool {
+	return this.pos < len(this.input)
+}
+
 func (this *Lexer) currCh() byte {
-	if !this.hasNext() {
-		return CharEof
+    if this.isValidPos() {
+		return this.input[this.pos]
 	}
-	return this.input[this.pos]
+	return CharEof
 }
 
 func (this *Lexer) peekCh() byte {
-	if this.isCurr(CharEof) { return 0 }
-	return this.input[this.pos + 1]
+	if this.hasNext() {
+		return this.input[this.pos + 1]
+	}
+	return CharEof
 }
 
 func (this *Lexer) incPos() {
-	if this.hasNext() { this.pos++ }
+	if this.isValidPos() {
+		this.pos++
+		this.ch = this.currCh()
+	}
 }
 
 func (this *Lexer) isCurr(ch byte) bool {
@@ -90,7 +104,6 @@ func (this *Lexer) tokenizeStringLiteral() token.Token {
 		this.incPos()
 	}
 	var content = this.input[start:this.pos]
-	this.incPos() // Jumps the '"' at the end
 	return token.NewToken(token.String, content)
 }
 
@@ -106,8 +119,6 @@ func (this *Lexer) Next() token.Token {
 	this.skipWhiteSpace()
 
 	switch this.currCh() {
-	case CharEof:
-		result = token.NewToken(token.Eof, "")
 	case '"':
 		result = this.tokenizeStringLiteral()
 	case '=':
@@ -156,6 +167,8 @@ func (this *Lexer) Next() token.Token {
 		result = token.NewToken(token.Lbrace, "{")
 	case '}':
 		result = token.NewToken(token.Rbrace, "}")
+    case 0:
+		result = token.NewToken(token.Eof, "")
 	default:
 		// Integer Literals
 		if isNumeric(this.currCh()) {
@@ -201,4 +214,10 @@ func (this *Lexer) PrintTokens() {
 	}
 
 	this.pos = backupPos
+}
+
+
+func (this *Lexer) printWord(startPos int, endPos int, word string) {
+	fmt.Printf("Start char: '%c', End char: '%c', Word: '%s'\n",
+		this.input[startPos], this.input[endPos], word)
 }

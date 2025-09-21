@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestMake(t *testing.T) {
+func Test_Code_Make(t *testing.T) {
 	var tests = []struct {
 		opcode code.Opcode
 		operands []int

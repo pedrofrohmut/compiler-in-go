@@ -8,6 +8,10 @@ import (
 	"testing"
 )
 
+/*
+	Todos: Add comments
+*/
+
 type ExpectedToken struct {
     Type    string
     Literal string
@@ -33,7 +37,7 @@ func checkTokens(t *testing.T, lexer *lexer.Lexer, expectedTokens []ExpectedToke
     }
 }
 
-func TestTokens(t *testing.T) {
+func Test_Lexer_Tokens(t *testing.T) {
 	var input = `
 		foobar
 	 	123
@@ -102,7 +106,7 @@ func TestTokens(t *testing.T) {
 	checkTokens(t, lexer, expectedTokens)
 }
 
-func TestTokenizeCode(t *testing.T) {
+func Test_Lexer_TokenizeCode(t *testing.T) {
 	var input = `
 		let five = 5;
 		let ten = 10;
@@ -112,50 +116,114 @@ func TestTokenizeCode(t *testing.T) {
 		};
 
 		let result = add(five, ten);
-	`
+
+		if (five < ten) {
+			return true;
+		} else {
+			return false;
+		}
+
+		!true == false;
+		five != ten;
+
+		"foo bar";
+		"foobar";
+		"";
+		"hello, world!";
+`
+		// [1, 2, 3];
+
+		// { "foo": "bar" };
+
 	var lexer = lexer.NewLexer(input)
 
     var expectedTokens = []ExpectedToken{
-        // Statement 1
-        {token.Let, "let"},
-		{token.Ident, "five"},
-		{token.Assign, "="},
-		{token.Int, "5"},
-		{token.Semicolon, ";"},
-		// Statement 2
-		{token.Let, "let"},
-		{token.Ident, "ten"},
-		{token.Assign, "="},
-		{token.Int, "10"},
-		{token.Semicolon, ";"},
-		// Statement 3
-		{token.Let, "let"},
-		{token.Ident, "add"},
-		{token.Assign, "="},
-		{token.Function, "fn"},
-		{token.Lparen, "("},
-		{token.Ident, "x"},
-		{token.Comma, ","},
-		{token.Ident, "y"},
-		{token.Rparen, ")"},
-		{token.Lbrace, "{"},
-		{token.Ident, "x"},
-		{token.Plus, "+"},
-		{token.Ident, "y"},
-		{token.Semicolon, ";"},
-		{token.Rbrace, "}"},
-		{token.Semicolon, ";"},
-		// Statement 4
-		{token.Let, "let"},
-		{token.Ident, "result"},
-		{token.Assign, "="},
-		{token.Ident, "add"},
-		{token.Lparen, "("},
-		{token.Ident, "five"},
-		{token.Comma, ","},
-		{token.Ident, "ten"},
-		{token.Rparen, ")"},
-		{token.Semicolon, ";"},
+        // let
+        {token.Let,		   "let"  },
+		{ token.Ident,	   "five" },
+		{ token.Assign,	   "="	  },
+		{ token.Int,	   "5"	  },
+		{ token.Semicolon, ";"	  },
+
+		// let
+		{ token.Let,	   "let" },
+		{ token.Ident,	   "ten" },
+		{ token.Assign,	   "="	 },
+		{ token.Int,	   "10"	 },
+		{ token.Semicolon, ";"	 },
+
+		// let + function literal
+		{ token.Let,	   "let" },
+		{ token.Ident,	   "add" },
+		{ token.Assign,	   "="	 },
+		{ token.Function,  "fn"	 },
+		{ token.Lparen,	   "("	 },
+		{ token.Ident,	   "x"	 },
+		{ token.Comma,	   ","	 },
+		{ token.Ident,	   "y"	 },
+		{ token.Rparen,	   ")"	 },
+		{ token.Lbrace,	   "{"	 },
+		{ token.Ident,	   "x"	 },
+		{ token.Plus,	   "+"	 },
+		{ token.Ident,	   "y"	 },
+		{ token.Semicolon, ";"	 },
+		{ token.Rbrace,	   "}"	 },
+		{ token.Semicolon, ";"	 },
+
+		// let + call with identifiers
+		{ token.Let,	   "let"	},
+		{ token.Ident,	   "result" },
+		{ token.Assign,	   "="	    },
+		{ token.Ident,	   "add"	},
+		{ token.Lparen,	   "("	    },
+		{ token.Ident,	   "five"	},
+		{ token.Comma,	   ","	    },
+		{ token.Ident,	   "ten"	},
+		{ token.Rparen,	   ")"	    },
+		{ token.Semicolon, ";"	    },
+
+		// If Else
+		{ token.If,		   "if"		},
+		{ token.Lparen,	   "("		},
+		{ token.Ident,	   "five"	},
+		{ token.Lt,	       "<"		},
+		{ token.Ident,	   "ten"	},
+		{ token.Rparen,	   ")"		},
+		{ token.Lbrace,	   "{"		},
+		{ token.Return,	   "return" },
+		{ token.True,	   "true"	},
+		{ token.Semicolon, ";"		},
+		{ token.Rbrace,	   "}"		},
+		{ token.Else,	   "else"	},
+		{ token.Lbrace,	   "{"		},
+		{ token.Return,	   "return" },
+		{ token.False,	   "false"	},
+		{ token.Semicolon, ";"		},
+		{ token.Rbrace,	   "}"		},
+
+		// Comparison 1
+		{ token.Bang,	   "!"	   },
+		{ token.True,	   "true"  },
+		{ token.Eq,		   "=="	   },
+		{ token.False,	   "false" },
+		{ token.Semicolon, ";"	   },
+
+		// Comparison 2
+		{ token.Ident,	   "five" },
+		{ token.NotEq,	   "!="	  },
+		{ token.Ident,	   "ten"  },
+		{ token.Semicolon, ";"	  },
+
+		// Strings
+		{token.String,	   "foo bar"	   },
+        {token.Semicolon,  ";"			   },
+        {token.String,	   "foobar"		   },
+        {token.Semicolon,  ";"			   },
+        {token.String,	   ""			   },
+        {token.Semicolon,  ";"			   },
+        {token.String,	   "hello, world!" },
+        {token.Semicolon,  ";"			   },
+
 	}
 
 	checkTokens(t, lexer, expectedTokens)

@@ -68,7 +68,7 @@ func NewToken(typ string, literal string) Token {
 func PrintToken(token Token) {
 	switch token.Type {
 	case String:
-		fmt.Printf("{ %s, %s }\n", token.Type, token.Literal)
+		fmt.Printf("{ %s, \"%s\" }\n", token.Type, token.Literal)
 	default:
 		fmt.Printf("{ %s, \"%s\" }\n", token.Type, token.Literal)
 	}
