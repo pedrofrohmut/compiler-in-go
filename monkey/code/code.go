@@ -21,11 +21,10 @@ const (
 // will be kept as a byte array for simplicity
 type instructions []byte
 
-
 // Struct mainly for the debugging purposes with a human readable name
 type Definition struct {
 	Name string					// Human readable
-	OperandWidths []int    		// Number of bytes each operand takes
+	OperandWidths []int			// Number of bytes each operand takes
 }
 
 var definitions = map[Opcode]*Definition {

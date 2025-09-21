@@ -19,25 +19,25 @@ type Lexer struct {
 }
 
 func NewLexer(input string) *Lexer {
-    var lexer = &Lexer {}
-    lexer.input = input
-    lexer.pos = 0
+	var lexer = &Lexer {}
+	lexer.input = input
+	lexer.pos = 0
 	if len(input) > 0 {
 		lexer.ch = input[0]
 	}
-    return lexer
+	return lexer
 }
 
 func (this *Lexer) hasNext() bool {
 	return this.pos < len(this.input) - 1
 }
 
-func (this *Lexer) isValidPos() bool {
+func (this *Lexer) isValidCurrPos() bool {
 	return this.pos < len(this.input)
 }
 
 func (this *Lexer) currCh() byte {
-    if this.isValidPos() {
+	if this.isValidCurrPos() {
 		return this.input[this.pos]
 	}
 	return CharEof
@@ -51,7 +51,7 @@ func (this *Lexer) peekCh() byte {
 }
 
 func (this *Lexer) incPos() {
-	if this.isValidPos() {
+	if this.isValidCurrPos() {
 		this.pos++
 		this.ch = this.currCh()
 	}
@@ -167,7 +167,7 @@ func (this *Lexer) Next() token.Token {
 		result = token.NewToken(token.Lbrace, "{")
 	case '}':
 		result = token.NewToken(token.Rbrace, "}")
-    case 0:
+	case 0:
 		result = token.NewToken(token.Eof, "")
 	default:
 		// Integer Literals

@@ -13,40 +13,40 @@ import (
 */
 
 type ExpectedToken struct {
-    Type    string
-    Literal string
+	Type	string
+	Literal string
 }
 
 func checkTokens(t *testing.T, lexer *lexer.Lexer, expectedTokens []ExpectedToken) {
-    for i, expected := range expectedTokens {
-        var token = lexer.Next()
+	for i, expected := range expectedTokens {
+		var token = lexer.Next()
 
 		var hasError = false
-        if token.Type != expected.Type {
-            t.Errorf("Test[%d] - tokentype wrong. Expected=%q but got=%q instead",
-                i, expected.Type, token.Type)
+		if token.Type != expected.Type {
+			t.Errorf("Test[%d] - tokentype wrong. Expected=%q but got=%q instead",
+				i, expected.Type, token.Type)
 			hasError = true
-        }
+		}
 
-        if token.Literal != expected.Literal {
-            t.Errorf("Test[%d] - literal wrong. Expected='%q' but got='%q' instead",
-                i, expected.Literal, token.Literal)
+		if token.Literal != expected.Literal {
+			t.Errorf("Test[%d] - literal wrong. Expected='%q' but got='%q' instead",
+				i, expected.Literal, token.Literal)
 			hasError = true
-        }
+		}
 		if hasError { t.Fatalf("Stoped on expected token: { %s, %s }", expected.Type, expected.Literal) }
-    }
+	}
 }
 
 func Test_Lexer_Tokens(t *testing.T) {
 	var input = `
 		foobar
-	 	123
+		123
 		"foobar"
-	 	=+-!*/
-	 	<>==!=
-	 	,;
-	 	.:
-	 	(){}[]
+		=+-!*/
+		<>==!=
+		,;
+		.:
+		(){}[]
 		fn let true false if else return
 	`
 	var lexer = lexer.NewLexer(input)
@@ -56,7 +56,7 @@ func Test_Lexer_Tokens(t *testing.T) {
 		{ token.Ident, "foobar" },
 
 		// Literals
-		{ token.Int,    "123" },
+		{ token.Int,	"123" },
 		{ token.String, "foobar" },
 
 		// // Operators
@@ -68,13 +68,13 @@ func Test_Lexer_Tokens(t *testing.T) {
 		{ token.Slash,	  "/" },
 
 		// // Comparison
-		{ token.Lt,	   "<"  },
-		{ token.Gt,	   ">"  },
+		{ token.Lt,	   "<"	},
+		{ token.Gt,	   ">"	},
 		{ token.Eq,	   "==" },
 		{ token.NotEq, "!=" },
 
 		// Delimiters
-		{ token.Comma,     "," },
+		{ token.Comma,	   "," },
 		{ token.Semicolon, ";" },
 
 		// Others
@@ -112,7 +112,7 @@ func Test_Lexer_TokenizeCode(t *testing.T) {
 		let ten = 10;
 
 		let add = fn(x, y) {
-		    x + y;
+			x + y;
 		};
 
 		let result = add(five, ten);
@@ -130,16 +130,16 @@ func Test_Lexer_TokenizeCode(t *testing.T) {
 		"foobar";
 		"";
 		"hello, world!";
-`
-		// [1, 2, 3];
 
-		// { "foo": "bar" };
+		[1, 2, 3];
 
+		{ "foo": "bar" };
+	`
 	var lexer = lexer.NewLexer(input)
 
-    var expectedTokens = []ExpectedToken{
-        // let
-        {token.Let,		   "let"  },
+	var expectedTokens = []ExpectedToken{
+		// let
+		{token.Let,		   "let"  },
 		{ token.Ident,	   "five" },
 		{ token.Assign,	   "="	  },
 		{ token.Int,	   "5"	  },
@@ -173,20 +173,20 @@ func Test_Lexer_TokenizeCode(t *testing.T) {
 		// let + call with identifiers
 		{ token.Let,	   "let"	},
 		{ token.Ident,	   "result" },
-		{ token.Assign,	   "="	    },
+		{ token.Assign,	   "="		},
 		{ token.Ident,	   "add"	},
-		{ token.Lparen,	   "("	    },
+		{ token.Lparen,	   "("		},
 		{ token.Ident,	   "five"	},
-		{ token.Comma,	   ","	    },
+		{ token.Comma,	   ","		},
 		{ token.Ident,	   "ten"	},
-		{ token.Rparen,	   ")"	    },
-		{ token.Semicolon, ";"	    },
+		{ token.Rparen,	   ")"		},
+		{ token.Semicolon, ";"		},
 
 		// If Else
 		{ token.If,		   "if"		},
 		{ token.Lparen,	   "("		},
 		{ token.Ident,	   "five"	},
-		{ token.Lt,	       "<"		},
+		{ token.Lt,		   "<"		},
 		{ token.Ident,	   "ten"	},
 		{ token.Rparen,	   ")"		},
 		{ token.Lbrace,	   "{"		},
@@ -214,16 +214,32 @@ func Test_Lexer_TokenizeCode(t *testing.T) {
 		{ token.Ident,	   "ten"  },
 		{ token.Semicolon, ";"	  },
 
-		// Strings
+		// String Literals
 		{token.String,	   "foo bar"	   },
-        {token.Semicolon,  ";"			   },
-        {token.String,	   "foobar"		   },
-        {token.Semicolon,  ";"			   },
-        {token.String,	   ""			   },
-        {token.Semicolon,  ";"			   },
-        {token.String,	   "hello, world!" },
-        {token.Semicolon,  ";"			   },
+		{token.Semicolon,  ";"			   },
+		{token.String,	   "foobar"		   },
+		{token.Semicolon,  ";"			   },
+		{token.String,	   ""			   },
+		{token.Semicolon,  ";"			   },
+		{token.String,	   "hello, world!" },
+		{token.Semicolon,  ";"			   },
 
+		// Array Literal
+		{ token.Lbracket,  "[" },
+		{ token.Int,	   "1" },
+		{ token.Comma,	   "," },
+		{ token.Int,	   "2" },
+		{ token.Comma,	   "," },
+		{ token.Int,	   "3" },
+		{ token.Rbracket,  "]" },
+		{ token.Semicolon, ";" },
+
+		// Hash Literals
+		{ token.Lbrace, "{"	  },
+		{ token.String, "foo" },
+		{ token.Colon,	":"	  },
+		{ token.String, "bar" },
+		{ token.Rbrace, "}"	  },
 	}
 
 	checkTokens(t, lexer, expectedTokens)

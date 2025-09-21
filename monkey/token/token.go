@@ -5,60 +5,60 @@ package token
 import "fmt"
 
 const (
-    // Special types
-    Illegal    = "ILLEGAL"
-    Eof        = "EOF"
+	// Special types
+	Illegal	   = "ILLEGAL"
+	Eof		   = "EOF"
 
-    // indentifiers
-    Ident      = "IDENT" // add, foobar, x, y
+	// indentifiers
+	Ident	   = "IDENT" // add, foobar, x, y
 
-    // Literals
-    Int        = "INT"
-    String     = "STRING"
+	// Literals
+	Int		   = "INT"
+	String	   = "STRING"
 
-    // Operators
-    Assign     = "="
-    Plus       = "+"
-    Minus      = "-"
-    Bang       = "!"
-    Asterisk   = "*"
-    Slash      = "/"
+	// Operators
+	Assign	   = "="
+	Plus	   = "+"
+	Minus	   = "-"
+	Bang	   = "!"
+	Asterisk   = "*"
+	Slash	   = "/"
 
-    // Comparison
-    Lt         = "<"
-    Gt         = ">"
-    Eq         = "=="
-    NotEq     = "!="
+	// Comparison
+	Lt		   = "<"
+	Gt		   = ">"
+	Eq		   = "=="
+	NotEq	  = "!="
 
-    // Delimiters
-    Comma      = ","
-    Semicolon  = ";"
+	// Delimiters
+	Comma	   = ","
+	Semicolon  = ";"
 
 	// Others
-    Dot        = "."
-    Colon      = ":"
+	Dot		   = "."
+	Colon	   = ":"
 
-    // Grouping
-    Lparen     = "("
-    Rparen     = ")"
-    Lbrace     = "{"
-    Rbrace     = "}"
-    Lbracket   = "["
-    Rbracket   = "]"
+	// Grouping
+	Lparen	   = "("
+	Rparen	   = ")"
+	Lbrace	   = "{"
+	Rbrace	   = "}"
+	Lbracket   = "["
+	Rbracket   = "]"
 
-    // Keywords
-    Function   = "FUNCTION"
-    Let        = "LET"
-    True       = "TRUE"
-    False      = "FALSE"
-    If         = "IF"
-    Else       = "ELSE"
-    Return     = "RETURN"
+	// Keywords
+	Function   = "FUNCTION"
+	Let		   = "LET"
+	True	   = "TRUE"
+	False	   = "FALSE"
+	If		   = "IF"
+	Else	   = "ELSE"
+	Return	   = "RETURN"
 )
 
 type Token struct {
-    Type string
-    Literal string
+	Type string
+	Literal string
 }
 
 func NewToken(typ string, literal string) Token {
