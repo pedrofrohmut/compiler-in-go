@@ -2,6 +2,33 @@
 
 package tests
 
+/*
+	Parser ToDo:
+
+	[ ] Precedence Expressions
+	[ ] Infix Expressions
+	[ ] Prefix Expressions
+
+	[x] Integer Literals
+	[ ] String Literals
+	[ ] Char Literals
+	[ ] Array Literals
+	[ ] Hash Literals
+	[ ] Function Literals
+
+	[ ] Expression Statements
+	[ ] Let Statements
+	[ ] Return Statements
+	[ ] Call Statements
+
+	[ ] Identifiers Expressions
+	[ ] Call Expressions
+	[ ] If/Else Expressions
+	[ ] Clojure Function
+	[ ] Array Index
+*/
+
+
 import (
 	"fmt"
 	"monkey/ast"
