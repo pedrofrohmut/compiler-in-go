@@ -33,8 +33,10 @@ type Program struct {
 	Statements []Statement
 }
 
+// @Impl
 func (this *Program) node() {}
 
+// @Impl
 func (this *Program) String() string {
 	var out bytes.Buffer
 
@@ -49,10 +51,13 @@ type ExpressionStatement struct {
 	Expression Expression
 }
 
+// @Impl
 func (this *ExpressionStatement) node() {}
 
+// @Impl
 func (this *ExpressionStatement) statement() {}
 
+// @Impl
 func (this *ExpressionStatement) String() string {
 	return this.Expression.String()
 }
@@ -61,10 +66,30 @@ type IntegerLiteral struct {
 	Value int64
 }
 
+// @Impl
 func (this *IntegerLiteral) node() {}
 
+// @Impl
 func (this *IntegerLiteral) expression() {}
 
+// @Impl
 func (this *IntegerLiteral) String() string {
 	return fmt.Sprintf("%d", this.Value)
+}
+
+type InfixExpression struct {
+	Left Expression
+	Operator string
+	Right Expression
+}
+
+// @Impl
+func (this *InfixExpression) node() {}
+
+// @Impl
+func (this *InfixExpression) expression() {}
+
+// @Impl
+func (this *InfixExpression) String() string {
+    return "(" + this.Left.String() + " " + this.Operator + " " + this.Right.String() + ")"
 }

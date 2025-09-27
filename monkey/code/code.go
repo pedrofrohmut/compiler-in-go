@@ -19,7 +19,7 @@ const (
 
 // A single instruction will not be explict defined to avoid too much casting and
 // will be kept as a byte array for simplicity
-type instructions []byte
+type Instructions []byte
 
 // Struct mainly for the debugging purposes with a human readable name
 type Definition struct {
@@ -42,6 +42,7 @@ func GetDefinition(opcode byte) (*Definition, error) {
 // Makes an instruction that is just an array of bytes with the first byte reserved
 // for the opcode
 func Make(opcode Opcode, operands ...int) []byte {
+
 	// TODO: Maybe not needed to check for definition not found in this method
 	var definition = definitions[opcode]
 	// var definition, found = definitions[opcode]
