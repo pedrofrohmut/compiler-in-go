@@ -39,11 +39,9 @@ func (this *Program) node() {}
 // @Impl
 func (this *Program) String() string {
 	var out bytes.Buffer
-
 	for _, stm := range this.Statements {
 		out.WriteString(stm.String() + ";\n")
 	}
-
 	return out.String()
 }
 

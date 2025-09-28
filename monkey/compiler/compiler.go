@@ -3,11 +3,13 @@
 package compiler
 
 /*
-  TODO: Understand why it is using objects and not the ast directly
+	TODO: Understand why it is using objects and not the ast directly
 */
 
 import (
+	"monkey/ast"
 	"monkey/code"
+	"monkey/object"
 )
 
 type Compiler struct {
@@ -22,7 +24,7 @@ func NewCompiler() *Compiler {
 	}
 }
 
-func Compile() error {
+func (this *Compiler) Compile(program ast.Node) error {
 	return nil
 }
 

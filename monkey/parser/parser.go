@@ -44,6 +44,10 @@ func (this *Parser) next() {
 	this.peek = this.lexer.Next()
 }
 
+func (this *Parser) Errors() []string {
+	return this.errors
+}
+
 func (this *Parser) addError(error string) {
 	this.errors = append(this.errors, error)
 }
@@ -138,6 +142,10 @@ func (this *Parser) parseStatement() ast.Statement {
 	var stm = &ast.ExpressionStatement{}
 	stm.Expression = this.parseExpr(Lowest)
 	this.next()
+	for !this.isCurr(token.Semicolon) {
+		this.addError(fmt.Sprintf("Parser Error: Expected a semicolon but found %s instead", this.curr.Literal))
+		this.next()
+	}
 	return stm
 }
 

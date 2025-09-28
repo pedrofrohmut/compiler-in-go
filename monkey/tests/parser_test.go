@@ -129,7 +129,7 @@ func Test_Parser_SingleIntegerLiteral(t *testing.T) {
 	var parser = parser.NewParser(lexer)
 	var program = parser.ParseProgram()
 
-	printStatements(program)
+	// printStatements(program)
 	checkProgStmCount(t, program, 1)
 
 	var exprStm, ok = getExpressionStatement(t, program.Statements[0])
@@ -144,7 +144,7 @@ func Test_Parser_SingleInfixExpression(t *testing.T) {
 	var parser = parser.NewParser(lexer)
 	var program = parser.ParseProgram()
 
-	printStatements(program)
+	// printStatements(program)
 	checkProgStmCount(t, program, 1)
 
 	var exprStm, ok = getExpressionStatement(t, program.Statements[0])
