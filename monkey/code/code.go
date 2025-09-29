@@ -13,6 +13,8 @@ import (
 // 1 byte wise, the first byte in the instruction
 type Opcode byte
 
+// Constants is shorter for constant expressions
+// the value does not change and can be determined in compile time
 const (
 	OpConstant Opcode = iota // Holds an int that is a reference to the values in the constant pool
 )
@@ -21,10 +23,10 @@ const (
 // will be kept as a byte array for simplicity
 type Instructions []byte
 
-// Struct mainly for the debugging purposes with a human readable name
+// Struct mainly for the debugging purposes
 type Definition struct {
-	Name string					// Human readable
-	OperandWidths []int			// Number of bytes each operand takes
+	Name string			// Human readable name
+	OperandWidths []int // Number of bytes each operand takes
 }
 
 var definitions = map[Opcode]*Definition {
