@@ -23,6 +23,10 @@ const (
 // will be kept as a byte array for simplicity
 type Instructions []byte
 
+func (this Instructions) String() string {
+	return ""
+}
+
 // Struct mainly for the debugging purposes
 type Definition struct {
 	Name string			// Human readable name
@@ -71,4 +75,23 @@ func Make(opcode Opcode, operands ...int) []byte {
 	}
 
 	return instruction
+}
+
+func ReadOperands(definition *Definition, instructions Instructions) ([]int, int) {
+	var operands = make([]int, len(definition.OperandWidths))
+	var offset = 0
+
+	for i, width := range definition.OperandWidths {
+		switch width {
+		case 2:
+		operands[i] = int(ReadUint16(instructions[offset:]))
+		}
+		offset += width
+	}
+
+	return operands, offset
+}
+
+func ReadUint16(instructions Instructions) uint16 {
+	return binary.BigEndian.Uint16(instructions)
 }
